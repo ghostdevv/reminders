@@ -1,0 +1,178 @@
+<script>
+    import { reminders } from '../stores/reminders';
+    import { webhookURL, userID } from '../stores/settings.js';
+
+    export let data = {};
+
+    let showContent = false;
+    let editing = false;
+    let sending = false;
+
+    function edit() {
+        editing = !editing;
+
+        if (!editing) save();
+    };
+
+    function save(sent = false) {
+        data = {
+            ...data,
+            sent,
+            timestamp: Date.now()
+        };
+
+        $reminders = [
+            ...$reminders.filter(x => x.id != data.id),
+            data
+        ].sort((a, b) => b.id - a.id);
+    };
+
+    function send() {
+        sending = true;
+
+        fetch($webhookURL + '?wait=true', {
+            method: 'POST',
+            headers: {
+                'User-Agent': 'GHOST\'s Reminder Client https://github.com/ghostdevv/reminders',
+                'content-type': 'application/json',
+            },
+            body: JSON.stringify({
+                content: $userID ? `<@${$userID}>` : undefined,
+                embeds: [{
+                    title: `New Reminder`,
+                    fields: [
+                        {
+                            name: 'Title:',
+                            value: data.title
+                        },
+                        {
+                            name: 'Content:',
+                            value: data.content
+                        },
+                        {
+                            name: 'Time:',
+                            value: new Date(data.timestamp).toGMTString()
+                        },
+                    ],
+                    color: '16250100'
+                }]
+            })
+        })
+        .then(res => {
+            if (res.ok) {
+                return res.json();
+            } else {
+                throw res;
+            };
+        })
+        .then(res => {
+            sending = false;
+            data.sent = true;
+
+            save(true);
+        })
+        .catch(e => {
+            console.log(`There was a issue sending a reminder with id ${data.id} ^^`);
+
+            sending = false;
+            data.sent = false;
+        })
+    };
+</script>
+
+<main>
+    <div class="top">
+        <input type="text" bind:value={data.title} disabled={!editing} />
+        <div class="button-row">
+            {#if !data.sent}
+                {#if sending}
+                    <i class="fas fa-spinner spin"></i>
+                {:else}
+                    <i class="fas fa-paper-plane" on:click={send}></i>
+                {/if}
+            {/if}
+            <i class="fas" class:fa-pencil-alt={!editing} class:fa-check={editing} on:click={edit}></i>
+            <i class="fas" class:fa-chevron-down={!showContent} class:fa-chevron-up={showContent} on:click={() => showContent = !showContent}></i>
+        </div>
+    </div>
+    {#if showContent}
+        <div class="content">
+            {data.timestamp}
+            <span role="textbox" contenteditable={editing}>{data.content}</span>
+        </div>
+    {/if}
+</main>
+
+<style lang="scss">
+    .spin {
+        animation: spin 1s infinite linear;
+    }
+
+    @keyframes spin {
+        from {transform:rotate(0deg);}
+        to {transform:rotate(360deg);}
+    }
+
+    main {
+        width: 100%;
+        background-color: #f7f4f4;
+        padding: 8px;
+        border: 1px solid rgb(110, 110, 110);
+        border-radius: 4px;
+        margin: 4px 0px;
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            > input[type="text"] {
+                font-size: 2rem;
+                border: none;
+                background-color: rgba(0, 0, 0, 0);
+                padding: 2px;
+                opacity: 1;
+                font-weight: 400;
+
+                flex-grow: 1;
+
+                &:focus {
+                    outline: none;
+                }
+            }
+
+            .button-row {
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+            }
+
+            i {
+                padding: 0px 4px;
+                font-size: 1.5rem;
+                opacity: 0.8;
+                cursor: pointer;
+
+                &:hover {
+                    opacity: 1;
+                }
+            }
+        }
+
+        .content {
+            display: flex;
+            flex-flow: column nowrap;
+            padding: 2px;
+            
+            > span {
+                display: block;
+                font-size: 1.5rem;
+                border: none;
+                outline: none;
+                width: 100%;
+                padding: 2px;
+                flex-grow: 1;
+            }
+        }
+    }
+</style>
