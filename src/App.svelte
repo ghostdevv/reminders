@@ -18,10 +18,11 @@
 	function newReminder() {
 		$reminders = [{
 			id: $reminders.length,
-			title: 'Title goes here',
-			content: 'Content goes here',
+			title: '',
+			content: '',
 			sent: false,
 			timestamp: Date.now(),
+			new: true
 		}, ...$reminders];
 	};
 

@@ -1,28 +1,23 @@
 <script>
+    import ReminderModal from './ReminderModal.svelte';
     import { reminders } from '../stores/reminders';
     import { webhookURL, userID, pingOnSend } from '../stores/settings.js';
     import { sendWebhook } from '../helpers/SendWebhook.js';
 
     export let data = {};
 
-    let showContent = false;
-    let editing = false;
+    let showContent = data.new;
+    let editing = data.new;
     let sending = false;
 
     let inputElement;
-
-    function edit() {
-        editing = !editing;
-
-        if (!editing) save();
-    };
 
     function save(sent = false) {
         data = {
             ...data,
             sent,
-            content: inputElement.innerHTML,
-            timestamp: Date.now()
+            timestamp: Date.now(),
+            new: false
         };
 
         $reminders = [
@@ -68,11 +63,19 @@
             data.sent = false;
         })
     };
+
+    function del() {
+        $reminders = $reminders.filter(x => x.id != data.id);
+    };
 </script>
+
+{#if editing}
+    <ReminderModal bind:title={data.title} bind:content={data.content} bind:editing on:save={() => save()} on:delete={del} />
+{/if}
 
 <main>
     <div class="top">
-        <input type="text" bind:value={data.title} disabled={!editing} />
+        <input type="text" placeholder="Title..." bind:value={data.title} disabled={!editing} />
         <div class="button-row">
             {#if !data.sent}
                 {#if sending}
@@ -81,13 +84,13 @@
                     <i class="fas fa-paper-plane" on:click={send}></i>
                 {/if}
             {/if}
-            <i class="fas" class:fa-pencil-alt={!editing} class:fa-save={editing} on:click={edit}></i>
+            <i class="fas fa-pencil-alt" on:click={() => editing = !editing}></i>
             <i class="fas" class:fa-chevron-down={!showContent} class:fa-chevron-up={showContent} on:click={() => showContent = !showContent}></i>
         </div>
     </div>
     {#if showContent}
         <div class="content">
-            <span role="textbox" bind:this={inputElement} contenteditable={editing}>{data.content}</span>
+            <span role="textbox" bind:this={inputElement}>{data.content}</span>
         </div>
     {/if}
 </main>
