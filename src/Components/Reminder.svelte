@@ -10,8 +10,6 @@
     let editing = data.new;
     let sending = false;
 
-    let inputElement;
-
     function save(sent = false) {
         data = {
             ...data,
@@ -90,7 +88,7 @@
     </div>
     {#if showContent}
         <div class="content">
-            <span role="textbox" bind:this={inputElement}>{data.content}</span>
+            <span role="textbox">{data.content}</span>
         </div>
     {/if}
 </main>
