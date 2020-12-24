@@ -2,6 +2,7 @@
 	import Settings from './Components/Settings.svelte';
 	import Reminder from './Components/Reminder.svelte';
 	import { webhookURL, userID } from './stores/settings.js';
+	import { sendWebhook } from './helpers/SendWebhook.js';
 	import { reminders } from './stores/reminders';
 
 	userID.useLocalStorage();
@@ -22,6 +23,14 @@
 			timestamp: Date.now(),
 		}, ...$reminders];
 	};
+
+	let pingPromise;
+
+	function sendPing() {
+		pingPromise = sendWebhook($webhookURL, {
+			content: `<@${$userID}>`
+		});
+	}
 </script>
 
 {#if settingsShown}
@@ -43,6 +52,15 @@
 			<div class="button-row">
 				<button on:click={newReminder}>New</button>
 				<button on:click={clear}>Clear</button>
+				{#if $userID}
+					{#await pingPromise}
+						<button>Sending...</button>
+					{:then}
+						<button on:click={sendPing}>Send a ping</button>
+					{:catch}
+						<button>There was a error in sending your ping</button>
+					{/await}
+				{/if}
 			</div>
 
 			<div class="reminders">
