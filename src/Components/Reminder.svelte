@@ -1,6 +1,7 @@
 <script>
     import { reminders } from '../stores/reminders';
     import { webhookURL, userID } from '../stores/settings.js';
+    import { sendWebhook } from '../helpers/SendWebhook.js';
 
     export let data = {};
 
@@ -30,39 +31,26 @@
     function send() {
         sending = true;
 
-        fetch($webhookURL + '?wait=true', {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json',
-            },
-            body: JSON.stringify({
-                content: $userID ? `<@${$userID}>` : undefined,
-                embeds: [{
-                    title: `New Reminder`,
-                    fields: [
-                        {
-                            name: 'Title:',
-                            value: data.title
-                        },
-                        {
-                            name: 'Content:',
-                            value: data.content
-                        },
-                        {
-                            name: 'Time:',
-                            value: new Date(data.timestamp).toGMTString()
-                        },
-                    ],
-                    color: '16250100'
-                }]
-            })
-        })
-        .then(res => {
-            if (res.ok) {
-                return res.json();
-            } else {
-                throw res;
-            };
+        sendWebhook($webhookURL, {
+            content: $userID ? `<@${$userID}>` : undefined,
+            embeds: [{
+                title: `New Reminder`,
+                fields: [
+                    {
+                        name: 'Title:',
+                        value: data.title
+                    },
+                    {
+                        name: 'Content:',
+                        value: data.content
+                    },
+                    {
+                        name: 'Time:',
+                        value: new Date(data.timestamp).toGMTString()
+                    },
+                ],
+                color: '16250100'
+            }]
         })
         .then(res => {
             sending = false;
@@ -90,7 +78,7 @@
                     <i class="fas fa-paper-plane" on:click={send}></i>
                 {/if}
             {/if}
-            <i class="fas" class:fa-pencil-alt={!editing} class:fa-check={editing} on:click={edit}></i>
+            <i class="fas" class:fa-pencil-alt={!editing} class:fa-save={editing} on:click={edit}></i>
             <i class="fas" class:fa-chevron-down={!showContent} class:fa-chevron-up={showContent} on:click={() => showContent = !showContent}></i>
         </div>
     </div>
