@@ -2,6 +2,25 @@
     import { webhookURL, userID, pingOnSend } from '../stores/settings.js';
 
     export let settingsShown;
+
+    let saveButtonText = 'Save';
+
+    function close() {
+        webhookURL.load();
+        userID.load();
+        pingOnSend.load();
+
+        settingsShown = false;
+    };
+
+    function save() {
+        webhookURL.save();
+        userID.save();
+        pingOnSend.save();
+
+        saveButtonText = 'Saved!';
+        setTimeout(() => saveButtonText = 'Save', 700);
+    };
 </script>
 
 <main>
@@ -22,8 +41,8 @@
         </div>
     </div>
 
-    <button>Save</button>
-    <button on:click={() => settingsShown = false}>Close</button>
+    <button on:click={save}>{saveButtonText}</button>
+    <button on:click={close}>Close</button>
 </main>
 
 <style lang="scss">

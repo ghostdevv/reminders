@@ -10,6 +10,19 @@ export const createWritable = (key, startValue) => {
         subscribe,
         set,
         update,
+        save: () => {
+            const unsubscribe = subscribe((current) => {
+                localStorage.setItem(key, JSON.stringify(current));
+            });
+
+            unsubscribe();
+        },
+        load: () => {
+            const json = localStorage.getItem(key);
+            if (json) {
+                set(JSON.parse(json));
+            }
+        },
         useLocalStorage: () => {
             if (writingToLocal === true)
                 return () => (unsubscribe(), (writingToLocal = false));

@@ -5,9 +5,9 @@
 	import { sendWebhook } from './helpers/SendWebhook.js';
 	import { reminders } from './stores/reminders';
 
-	userID.useLocalStorage();
-	webhookURL.useLocalStorage();
-	pingOnSend.useLocalStorage();
+	userID.load();
+	webhookURL.load();
+	pingOnSend.load();
 	reminders.useLocalStorage();
 
 	let settingsShown = false;
