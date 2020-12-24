@@ -84,7 +84,6 @@
     </div>
     {#if showContent}
         <div class="content">
-            {data.timestamp}
             <span role="textbox" contenteditable={editing}>{data.content}</span>
         </div>
     {/if}
