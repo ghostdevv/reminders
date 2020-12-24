@@ -1,12 +1,13 @@
 <script>
 	import Settings from './Components/Settings.svelte';
 	import Reminder from './Components/Reminder.svelte';
-	import { webhookURL, userID } from './stores/settings.js';
+	import { webhookURL, userID, pingOnSend } from './stores/settings.js';
 	import { sendWebhook } from './helpers/SendWebhook.js';
 	import { reminders } from './stores/reminders';
 
 	userID.useLocalStorage();
 	webhookURL.useLocalStorage();
+	pingOnSend.useLocalStorage();
 	reminders.useLocalStorage();
 
 	let settingsShown = false;

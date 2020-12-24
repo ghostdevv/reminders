@@ -1,6 +1,6 @@
 <script>
     import { reminders } from '../stores/reminders';
-    import { webhookURL, userID } from '../stores/settings.js';
+    import { webhookURL, userID, pingOnSend } from '../stores/settings.js';
     import { sendWebhook } from '../helpers/SendWebhook.js';
 
     export let data = {};
@@ -32,7 +32,7 @@
         sending = true;
 
         sendWebhook($webhookURL, {
-            content: $userID ? `<@${$userID}>` : undefined,
+            content: $userID && $pingOnSend ? `<@${$userID}>` : undefined,
             embeds: [{
                 title: `New Reminder`,
                 fields: [

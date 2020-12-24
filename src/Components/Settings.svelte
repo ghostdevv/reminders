@@ -1,5 +1,5 @@
 <script>
-    import { webhookURL, userID } from '../stores/settings.js';
+    import { webhookURL, userID, pingOnSend } from '../stores/settings.js';
 
     export let settingsShown;
 </script>
@@ -15,6 +15,10 @@
         <div>
             <label for="uid">User ID</label>
             <input id="uid" type="text" placeholder="User ID" bind:value={$userID} />
+        </div>
+        <div class="row">
+            <input type="checkbox" id="ping" bind:checked={$pingOnSend} />
+            <label for="ping">Ping on reminder send</label>
         </div>
     </div>
 
@@ -42,6 +46,16 @@
                 font-size: 2rem;
                 width: 100%;
                 padding-top: 8px;
+            }
+
+            > div.row {
+                flex-flow: row nowrap;
+                justify-content: flex-start;
+                align-items: center;
+            
+                > * {
+                   margin-left: 4px; 
+                }
             }
 
             > div:first-child {
