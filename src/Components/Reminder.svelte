@@ -9,6 +9,8 @@
     let editing = false;
     let sending = false;
 
+    let inputElement;
+
     function edit() {
         editing = !editing;
 
@@ -19,6 +21,7 @@
         data = {
             ...data,
             sent,
+            content: inputElement.innerHTML,
             timestamp: Date.now()
         };
 
@@ -84,7 +87,7 @@
     </div>
     {#if showContent}
         <div class="content">
-            <span role="textbox" contenteditable={editing}>{data.content}</span>
+            <span role="textbox" bind:this={inputElement} contenteditable={editing}>{data.content}</span>
         </div>
     {/if}
 </main>
