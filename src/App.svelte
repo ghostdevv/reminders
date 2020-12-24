@@ -1,6 +1,7 @@
 <script>
 	import Settings from './Components/Settings.svelte';
 	import Reminder from './Components/Reminder.svelte';
+	import Credits from './Components/Credits.svelte';
 	import { webhookURL, userID, pingOnSend } from './stores/settings.js';
 	import { sendWebhook } from './helpers/SendWebhook.js';
 	import { reminders } from './stores/reminders';
@@ -12,6 +13,7 @@
 	reminders.useLocalStorage();
 
 	let settingsShown = false;
+	let creditsShown = false;
 	
 	const openSettings = () => settingsShown = true;
 	const clear = () => $reminders = [];
@@ -45,7 +47,11 @@
 			<span>No webhook url found. Open the <span class="link" on:click={openSettings}>settings</span> window to set one</span>
 		</div>
 	{:else}
-		<div class="settingsButton">
+		{#if creditsShown}
+			<Credits bind:creditsShown />
+		{/if}
+		<div class="top-buttons">
+			<i class="fas fa-info-circle" on:click={() => creditsShown = true}></i>
 			<i class="fas fa-cog" on:click={openSettings}></i>
 		</div>
 
@@ -102,15 +108,15 @@
         padding: 6px 12px;
     }
 
-	.settingsButton {
+	.top-buttons {
 		position: absolute;
 		top: 0;
 		right: 0;
-		padding: 4px;
+		padding: 6px;
 
 		i {
 			font-size: 2rem;
-			padding: 8px;
+			padding: 4px;
 			cursor: pointer;
 			opacity: 0.8;
 		
