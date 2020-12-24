@@ -2,7 +2,7 @@
     export let creditsShown;
 </script>
 
-<div class="backlay"></div>
+<div class="backlay" on:click={() => creditsShown = false}></div>
 
 <main>
     <div class="inner">

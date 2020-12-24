@@ -25,7 +25,7 @@
     };
 </script>
 
-<div class="backlay"></div>
+<div class="backlay" on:click={cancel}></div>
 
 <main>
     <div class="input">
