@@ -4,6 +4,7 @@
 	import { webhookURL, userID, pingOnSend } from './stores/settings.js';
 	import { sendWebhook } from './helpers/SendWebhook.js';
 	import { reminders } from './stores/reminders';
+	import { slide } from 'svelte/transition';
 
 	userID.load();
 	webhookURL.load();
@@ -67,7 +68,9 @@
 
 			<div class="reminders">
 				{#each $reminders as data (data.id)}
-					<Reminder {data} />
+					<div transition:slide>
+						<Reminder {data} />
+					</div>
 				{/each}
 			</div>
 		</main>
