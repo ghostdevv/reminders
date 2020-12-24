@@ -33,7 +33,6 @@
         fetch($webhookURL + '?wait=true', {
             method: 'POST',
             headers: {
-                'User-Agent': 'GHOST\'s Reminder Client https://github.com/ghostdevv/reminders',
                 'content-type': 'application/json',
             },
             body: JSON.stringify({
