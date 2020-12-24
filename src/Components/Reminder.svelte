@@ -83,6 +83,7 @@
                 {/if}
             {/if}
             <i class="fas fa-pencil-alt" on:click={() => editing = !editing}></i>
+            <i class="fas fa-trash" on:click={del}></i>
             <i class="fas" class:fa-chevron-down={!showContent} class:fa-chevron-up={showContent} on:click={() => showContent = !showContent}></i>
         </div>
     </div>
