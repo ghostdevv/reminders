@@ -65,7 +65,7 @@
 			</div>
 
 			<div class="reminders">
-				{#each $reminders as data}
+				{#each $reminders as data (data.id)}
 					<Reminder {data} />
 				{/each}
 			</div>
