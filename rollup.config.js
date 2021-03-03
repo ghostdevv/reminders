@@ -95,7 +95,7 @@ export default {
 
         injectManifest({
             globDirectory: assetsDir,
-            globPatterns: ['**/*.{js,css,svg}', '__app.html'],
+            globPatterns: ['**/*.{js,css,svg,png}', '__app.html'],
             swSrc: `src/service-worker.js`,
             swDest: `${distDir}/service-worker.js`,
             maximumFileSizeToCacheInBytes: 10000000, // 10 MB,
