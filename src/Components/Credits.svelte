@@ -52,6 +52,7 @@
             .text {
                 display: flex;
                 flex-flow: column nowrap;
+                padding: 2px 0px;
 
                 a {
                     color: blue;
