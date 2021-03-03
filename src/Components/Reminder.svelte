@@ -3,6 +3,7 @@
     import { reminders } from '@/stores/reminders';
     import { webhookURL, userID, pingOnSend } from '@/stores/settings.js';
     import { sendWebhook } from '@/helpers/SendWebhook.js';
+    import { slide } from 'svelte/transition';
 
     export let data = {};
 
@@ -88,7 +89,7 @@
         </div>
     </div>
     {#if showContent}
-        <div class="content">
+        <div class="content" transition:slide|local>
             <span role="textbox">{data.content}</span>
         </div>
     {/if}
