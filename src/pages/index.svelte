@@ -1,7 +1,8 @@
 <script>
-    import Settings from '@/components/Settings.svelte';
     import Reminder from '@/components/Reminder.svelte';
     import Credits from '@/components/Credits.svelte';
+
+    import { goto } from '@roxi/routify';
     import { webhookURL, userID, pingOnSend } from '@/stores/settings.js';
     import { sendWebhook } from '@/helpers/SendWebhook.js';
     import { reminders } from '@/stores/reminders';
@@ -12,10 +13,9 @@
     pingOnSend.load();
     reminders.useLocalStorage();
 
-    let settingsShown = false;
     let creditsShown = false;
 
-    const openSettings = () => (settingsShown = true);
+    const openSettings = () => $goto('/settings');
     const clear = () => ($reminders = []);
 
     function newReminder() {
@@ -41,51 +41,39 @@
     }
 </script>
 
-{#if settingsShown}
-    <Settings bind:settingsShown />
-{:else if !$webhookURL}
-    <div class="missingWebhookUrl">
-        <span class="title">Error!</span>
-        <span
-            >No webhook url found. Open the <span
-                class="link"
-                on:click={openSettings}>settings</span> window to set one</span>
-    </div>
-{:else}
-    {#if creditsShown}
-        <Credits bind:creditsShown />
-    {/if}
-    <div class="top-buttons">
-        <i class="fas fa-info-circle" on:click={() => (creditsShown = true)} />
-        <i class="fas fa-cog" on:click={openSettings} />
-    </div>
-
-    <main>
-        <span>Reminders</span>
-
-        <div class="button-row">
-            <button on:click={newReminder}>New</button>
-            <button on:click={clear}>Clear</button>
-            {#if $userID}
-                {#await pingPromise}
-                    <button>Sending...</button>
-                {:then}
-                    <button on:click={sendPing}>Send a ping</button>
-                {:catch}
-                    <button>There was a error in sending your ping</button>
-                {/await}
-            {/if}
-        </div>
-
-        <div class="reminders">
-            {#each $reminders as data (data.id)}
-                <div transition:slide>
-                    <Reminder {data} />
-                </div>
-            {/each}
-        </div>
-    </main>
+{#if creditsShown}
+    <Credits bind:creditsShown />
 {/if}
+<div class="top-buttons">
+    <i class="fas fa-info-circle" on:click={() => (creditsShown = true)} />
+    <i class="fas fa-cog" on:click={openSettings} />
+</div>
+
+<main>
+    <span>Reminders</span>
+
+    <div class="button-row">
+        <button on:click={newReminder}>New</button>
+        <button on:click={clear}>Clear</button>
+        {#if $userID}
+            {#await pingPromise}
+                <button>Sending...</button>
+            {:then}
+                <button on:click={sendPing}>Send a ping</button>
+            {:catch}
+                <button>There was a error in sending your ping</button>
+            {/await}
+        {/if}
+    </div>
+
+    <div class="reminders">
+        {#each $reminders as data (data.id)}
+            <div transition:slide|local>
+                <Reminder {data} />
+            </div>
+        {/each}
+    </div>
+</main>
 
 <style lang="scss">
     main {
@@ -127,30 +115,6 @@
             &:hover {
                 opacity: 1;
             }
-        }
-    }
-
-    .missingWebhookUrl {
-        padding: 8px;
-
-        .title {
-            color: red;
-            font-weight: 400;
-            font-size: 3rem;
-        }
-
-        .link {
-            color: blue;
-            cursor: pointer;
-        }
-
-        .link:hover {
-            text-decoration: underline;
-        }
-
-        > span {
-            display: block;
-            font-size: 2rem;
         }
     }
 </style>
