@@ -103,7 +103,7 @@
 
                 textarea {
                     min-height: 120px;
-                    min-width: 100%;
+                    width: 100%;
                 }
 
                 .error {
