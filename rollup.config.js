@@ -12,6 +12,7 @@ import postcssImport from 'postcss-import';
 import autoprefixer from 'autoprefixer';
 import alias from '@rollup/plugin-alias';
 import path from 'path';
+import { injectManifest } from 'rollup-plugin-workbox';
 
 const { distDir } = getConfig(); // use Routify's distDir for SSOT
 const assetsDir = 'assets';
@@ -91,6 +92,15 @@ export default {
         !production && !isNollup && serve(),
         !production && !isNollup && livereload(distDir), // refresh entire window when code is updated
         !production && isNollup && Hmr({ inMemory: true, public: assetsDir }), // refresh only updated code
+
+        injectManifest({
+            globDirectory: assetsDir,
+            globPatterns: ['**/*.{js,css,svg}', '__app.html'],
+            swSrc: `src/service-worker.js`,
+            swDest: `${distDir}/service-worker.js`,
+            maximumFileSizeToCacheInBytes: 10000000, // 10 MB,
+            mode: 'production',
+        }),
 
         production && copyToDist(),
     ],
