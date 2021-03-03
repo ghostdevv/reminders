@@ -1,8 +1,8 @@
 <script>
     import ReminderModal from './ReminderModal.svelte';
-    import { reminders } from '../stores/reminders';
-    import { webhookURL, userID, pingOnSend } from '../stores/settings.js';
-    import { sendWebhook } from '../helpers/SendWebhook.js';
+    import { reminders } from '@/stores/reminders';
+    import { webhookURL, userID, pingOnSend } from '@/stores/settings.js';
+    import { sendWebhook } from '@/helpers/SendWebhook.js';
 
     export let data = {};
 
