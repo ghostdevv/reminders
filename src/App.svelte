@@ -4,7 +4,7 @@
 
     if ('serviceWorker' in navigator) {
         import('workbox-window').then(async ({ Workbox }) => {
-            const wb = new Workbox('/serviceworker.js');
+            const wb = new Workbox('/service-worker.js');
             const registration = await wb.register();
 
             // Reload the page if the PWA has been updated. Change strategy if needed.
