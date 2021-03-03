@@ -7,11 +7,14 @@
     import { sendWebhook } from '@/helpers/SendWebhook.js';
     import { reminders } from '@/stores/reminders';
     import { slide } from 'svelte/transition';
+    import { onDestroy } from 'svelte';
 
     userID.load();
     webhookURL.load();
     pingOnSend.load();
-    reminders.useLocalStorage();
+    const unsubscribe = reminders.useLocalStorage();
+
+    onDestroy(unsubscribe);
 
     let creditsShown = false;
 
