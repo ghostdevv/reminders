@@ -6,5 +6,5 @@
 <Router {routes} />
 
 <style global lang="scss">
-	@import 'assets/global.scss';
+    @import 'style/global.scss';
 </style>
