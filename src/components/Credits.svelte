@@ -20,6 +20,7 @@
         <div class="text">
             <span class="title">Stack</span>
             <span>Svelte 3</span>
+            <span>Routify</span>
             <span>JavaScript</span>
             <span>HTML</span>
             <span>SCSS</span>
