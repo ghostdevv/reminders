@@ -8,8 +8,9 @@
 {:else}
     <div class="missingWebhookUrl">
         <span class="title">Error!</span>
-        <span
-            >No webhook url found. Open the <a href="/settings">settings</a> window to set one</span>
+        <span>No webhook url found. Open the
+            <a href="/settings">settings</a>
+            window to set one</span>
     </div>
 {/if}
 

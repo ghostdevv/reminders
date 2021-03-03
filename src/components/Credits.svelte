@@ -2,17 +2,20 @@
     export let creditsShown;
 </script>
 
-<div class="backlay" on:click={() => creditsShown = false}></div>
+<div class="backlay" on:click={() => (creditsShown = false)} />
 
 <main>
     <div class="inner">
         <div class="close">
-            <span on:click={() => creditsShown = false}>x</span>
+            <span on:click={() => (creditsShown = false)}>x</span>
         </div>
         <div class="text">
             <span class="title">Credits</span>
-            <span>Thanks to <a href="https://www.flaticon.com/">flaticon</a> for the logo</span>
-            <span>Icons by <a href="https://fontawesome.com/">Font Awesome</a></span>
+            <span>Thanks to
+                <a href="https://www.flaticon.com/">flaticon</a>
+                for the logo</span>
+            <span>Icons by
+                <a href="https://fontawesome.com/">Font Awesome</a></span>
         </div>
         <div class="text">
             <span class="title">Stack</span>
@@ -23,8 +26,12 @@
         </div>
         <div class="text">
             <span class="title">Info</span>
-            <span>Made by <a href="https://github.com/ghostdevv">GHOST</a></span>
-            <span>The repo can be found <a href="https://github.com/ghostdevv/reminders" target="_blank">here</a></span>
+            <span>Made by
+                <a href="https://github.com/ghostdevv">GHOST</a></span>
+            <span>The repo can be found
+                <a
+                    href="https://github.com/ghostdevv/reminders"
+                    target="_blank">here</a></span>
         </div>
     </div>
 </main>
@@ -41,7 +48,7 @@
         background-color: #f7f4f4;
         border: 1px solid rgb(110, 110, 110);
         border-radius: 4px;
-        
+
         .inner {
             padding: 8px 16px;
             width: 100%;
@@ -67,7 +74,7 @@
                     margin-left: 4px;
 
                     &:before {
-                        content: '- '
+                        content: '- ';
                     }
 
                     &.title {
@@ -75,7 +82,7 @@
                         margin-left: 0px;
 
                         &:before {
-                            content: ''
+                            content: '';
                         }
                     }
                 }
@@ -85,7 +92,7 @@
                 position: absolute;
                 top: 0;
                 right: 0;
-                
+
                 span {
                     opacity: 0.8;
                     font-size: 2rem;

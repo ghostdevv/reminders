@@ -6,36 +6,43 @@
     export let editing;
 
     let showErrors;
-    
-    $: missingTitle = (!title || title.trim() == '');
-    $: missingContent = (!content || content.trim() == '');
+
+    $: missingTitle = !title || title.trim() == '';
+    $: missingContent = !content || content.trim() == '';
 
     const dispatch = createEventDispatcher();
 
     function saveAndExit() {
-        if (missingTitle || missingContent) return showErrors = true;
-        
+        if (missingTitle || missingContent) return (showErrors = true);
+
         dispatch('save');
-        
+
         editing = false;
     }
 
     function cancel() {
         dispatch('delete');
-    };
+    }
 </script>
 
-<div class="backlay" on:click={cancel}></div>
+<div class="backlay" on:click={cancel} />
 
 <main>
     <div class="input">
         <div>
             <label for="title">Title *</label>
-            <input type="text" id="title" bind:value={title} class:error={missingTitle && showErrors} />
+            <input
+                type="text"
+                id="title"
+                bind:value={title}
+                class:error={missingTitle && showErrors} />
         </div>
         <div>
             <label for="content">Content *</label>
-            <textarea for="content" bind:value={content} class:error={missingContent && showErrors}></textarea>
+            <textarea
+                for="content"
+                bind:value={content}
+                class:error={missingContent && showErrors} />
         </div>
     </div>
     <div class="button-row">
@@ -81,13 +88,14 @@
                     font-size: 2rem;
                 }
 
-                textarea, input {
+                textarea,
+                input {
                     color: black;
                     font-size: 1.5rem;
 
                     border: 1px solid black;
                     border-radius: 4px;
-                
+
                     &:focus {
                         border-width: 2px;
                     }
@@ -112,12 +120,12 @@
             > * {
                 margin: 0px 4px;
             }
-            
+
             width: 100%;
         }
     }
 
-    input[type="text"] {
+    input[type='text'] {
         width: 100%;
         padding: 6px;
     }

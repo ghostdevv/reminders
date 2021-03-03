@@ -6,7 +6,7 @@
 
     function close() {
         $goto('/');
-    };
+    }
 
     webhookURL.load();
     userID.load();
@@ -18,8 +18,8 @@
         pingOnSend.save();
 
         saveButtonText = 'Saved!';
-        setTimeout(() => saveButtonText = 'Save', 700);
-    };
+        setTimeout(() => (saveButtonText = 'Save'), 700);
+    }
 </script>
 
 <main>
@@ -28,11 +28,19 @@
     <div class="settings">
         <div>
             <label for="webhook">Webhook URL</label>
-            <input id="webhook" type="text" placeholder="Webhook URL" bind:value={$webhookURL} />
+            <input
+                id="webhook"
+                type="text"
+                placeholder="Webhook URL"
+                bind:value={$webhookURL} />
         </div>
         <div>
             <label for="uid">User ID</label>
-            <input id="uid" type="text" placeholder="User ID" bind:value={$userID} />
+            <input
+                id="uid"
+                type="text"
+                placeholder="User ID"
+                bind:value={$userID} />
         </div>
         <div class="row">
             <input type="checkbox" id="ping" bind:checked={$pingOnSend} />
@@ -70,9 +78,9 @@
                 flex-flow: row nowrap;
                 justify-content: flex-start;
                 align-items: center;
-            
+
                 > * {
-                   margin-left: 4px; 
+                    margin-left: 4px;
                 }
             }
 
@@ -86,7 +94,7 @@
         padding: 6px 12px;
     }
 
-    input[type="text"] {
+    input[type='text'] {
         width: 100%;
         padding: 4px;
     }
