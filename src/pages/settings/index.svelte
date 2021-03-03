@@ -1,17 +1,16 @@
 <script>
-    import { webhookURL, userID, pingOnSend } from '../stores/settings.js';
-
-    export let settingsShown;
+    import { webhookURL, userID, pingOnSend } from '@/stores/settings.js';
+    import { goto } from '@roxi/routify';
 
     let saveButtonText = 'Save';
 
     function close() {
-        webhookURL.load();
-        userID.load();
-        pingOnSend.load();
-
-        settingsShown = false;
+        $goto('/');
     };
+
+    webhookURL.load();
+    userID.load();
+    pingOnSend.load();
 
     function save() {
         webhookURL.save();
